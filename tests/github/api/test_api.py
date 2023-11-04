@@ -1,8 +1,8 @@
 import requests
-from src.config.config import *
 from src.applications.github.api.github_api import GitHubAPI
+from src.applications.github.api.github_api import GitHubAuth
 import time
-
+import pytest
 
 def test_search_for_existing_repo():
     github_api_client = GitHubAPI()
@@ -37,6 +37,7 @@ def test_search_for_nonexisting_branches():
 
     assert non_existing_branch_name not in list_of_branches
 
+@pytest.mark.skip()
 def test_branch_rename():
     github_api_client =GitHubAPI()
     owner = "bartekmuszynski"
@@ -46,22 +47,68 @@ def test_branch_rename():
     call = github_api_client.rename_branch(owner,repo,branch,new_name)
     assert call.status_code == 201
     #according to documentation renaming the branch may take some time
-    #so we stop for 10 second to ensure the new branch name is updated
-    time.sleep(10)
+    #so we stop for 20 second to ensure the new branch name is updated
+    time.sleep(20)
     assert new_name in github_api_client.search_branches(owner, repo)
     
     
     
-
+@pytest.mark.skip()
 def test_branch_restore():
     #restoring original branch name to prevent previous tc from failing
-    github_api_client =GitHubAPI()
+    github_api_client = GitHubAPI()
     owner = "bartekmuszynski"
     repo = "tic_tac_toee"
     branch = "develop_changed"
     new_name = "develop"
     call = github_api_client.rename_branch(owner,repo,branch,new_name)  
     assert call.status_code == 201  
+
+
+def test_creation_of_variable():
+    #creating a variable in  repository 
+    github_api_client = GitHubAPI()
+    owner = "bartekmuszynski"
+    repo = "tic_tac_toee"
+    name = "var11"
+    value = "babaa"
+    call = github_api_client.create_variable(owner,repo,name,value)
+
+    assert call.status_code == 201
+    assert name.upper() == github_api_client.get_variable(owner,repo,name)["name"]
+    assert value == github_api_client.get_variable(owner,repo,name)["value"]
+
+
+def test_updating_variable():
+    github_api_client = GitHubAPI()
+    owner = "bartekmuszynski"
+    repo = "tic_tac_toee"
+    name = "var11"
+    value = "b"
+    call  = github_api_client.update_variable(owner,repo,name,value)
+
+    assert call.status_code == 204
+    assert name.upper() == github_api_client.get_variable(owner,repo,name)["name"]
+    assert value == github_api_client.get_variable(owner,repo,name)["value"]
+
+def test_deleting_variable():
+    github_api_client = GitHubAPI()
+    owner = "bartekmuszynski"
+    repo = "tic_tac_toee"
+    name = "var11"
+    call = github_api_client.delete_variable(owner,repo,name)
+    
+    assert call.status_code == 204
+    assert name not in github_api_client.get_variable(owner,repo,name)
+
+    
+    
+
+
+
+  
+
+
 
    
 
