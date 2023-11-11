@@ -1,11 +1,9 @@
 import requests
+from src.config.config1 import *
 
 class GitHubAPI:
     """Class used for api calls used in tests"""
 
-
-    def __init__(self) -> None:
-        pass
 
 
     def search_repo(self, repo_name):
@@ -73,16 +71,15 @@ class GitHubAPI:
         
 class GitHubAuth:
         # Github client made for operations requiring authetication
-        # github token is saved in local file, that is in .gitignore
-        #later it will be coming from config file, no time for now
 
     def gh_session_authetication_client(self):
-        with open("git_token.txt") as file:
-            token = file.read()
-            username = "bartekmuszynski"
             gh_session = requests.Session()
-            gh_session.auth = (username,token)
+            gh_session.auth = (owner,git_token)
             return gh_session
+        
+
+
+
     
 
         
