@@ -15,7 +15,7 @@ repository_var_name = os.getenv("repository_var_name")
 repository_var_value = os.getenv("repository_var_value")
 repository_var_value_updated = os.getenv("repository_var_value_updated")
 git_token = os.getenv("git_token")
-
+base_url = os.getenv("base_url")
 
 
 

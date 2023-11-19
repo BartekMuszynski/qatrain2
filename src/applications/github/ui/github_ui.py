@@ -1,5 +1,3 @@
-class GitHubUI:
-    """Class used for UI usage in tests"""
+from selenium import webdriver
 
-    def __init__(self) -> None:
-        pass
+webdriver.Chrome()

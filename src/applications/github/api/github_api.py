@@ -34,7 +34,7 @@ class GitHubAPI:
     
 
     def create_variable(self,owner,repo,name,value) :
-        #function for creating variavbles in given repository
+        #function for creating  reposiotyr variavbles in given repository
         url = f"https://api.github.com/repos/{owner}/{repo}/actions/variables"
         gh_auth_client = GitHubAuth()
         data = {"name": name, "value": value}
